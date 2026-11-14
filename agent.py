@@ -1,11 +1,18 @@
 import math
 
-from storage import ExpenseStorage
+from storage import ExpenseStorage, StorageError
 
-storage = ExpenseStorage()
+try:
+    storage = ExpenseStorage()
+except StorageError as error:
+    print(f"Критическая ошибка хранилища: {error}")
+    storage = None
 
 
 def handle_add(amount_str, category):
+    if storage is None:
+        return "Ошибка: Хранилище недоступно."
+
     try:
         amount = float(amount_str)
 
@@ -28,9 +35,14 @@ def handle_add(amount_str, category):
 
     except ValueError:
         return "Ошибка: Сумма должна быть числом."
+    except StorageError as error:
+        return f"Ошибка хранения данных: {error}"
 
 
 def handle_show():
+    if storage is None:
+        return "Ошибка: Хранилище недоступно."
+
     expenses = storage.get_all()
 
     if not expenses:
@@ -48,6 +60,9 @@ def handle_show():
 
 
 def handle_change_category(id_str, new_category):
+    if storage is None:
+        return "Ошибка: Хранилище недоступно."
+
     try:
         expense_id = int(id_str)
 
@@ -64,3 +79,5 @@ def handle_change_category(id_str, new_category):
 
     except ValueError:
         return "Ошибка: ID должен быть целым числом."
+    except StorageError as error:
+        return f"Ошибка хранения данных: {error}"
