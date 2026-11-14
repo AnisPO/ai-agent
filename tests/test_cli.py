@@ -80,3 +80,20 @@ def test_cli_handles_eof(monkeypatch, capsys):
     output = capsys.readouterr().out
 
     assert "Завершение" in output
+
+
+def test_cli_handles_invalid_arguments_and_continues(monkeypatch, capsys):
+    commands = iter(
+        [
+            "add 500",
+            "show extra",
+            "exit",
+        ]
+    )
+    monkeypatch.setattr("builtins.input", lambda _: next(commands))
+
+    cli.run_cli()
+
+    output = capsys.readouterr().out
+    assert "Ошибка: Неверный формат" in output
+    assert "Завершение работы" in output

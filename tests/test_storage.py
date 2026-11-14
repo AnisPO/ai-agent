@@ -105,3 +105,18 @@ def test_failed_save_rolls_back_new_expense(tmp_path, monkeypatch):
         storage.add_expense(100.0, "Еда")
 
     assert storage.get_all() == []
+
+
+def test_failed_category_change_rolls_back(tmp_path, monkeypatch):
+    storage = ExpenseStorage(tmp_path / "expenses.json")
+    storage.add_expense(100.0, "Еда")
+
+    def fail_save():
+        raise StorageError("Ошибка тестового сохранения")
+
+    monkeypatch.setattr(storage, "_save", fail_save)
+
+    with pytest.raises(StorageError):
+        storage.change_category(1, "Покупки")
+
+    assert storage.get_all() == [{"id": 1, "amount": 100.0, "category": "Еда"}]
