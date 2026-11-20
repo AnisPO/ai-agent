@@ -3,3 +3,12 @@ __pycache__/
 .env
 venv/
 .venv/
+
+# Local expense data
+data/expenses.json
+data/expenses.json.tmp
+
+# Test and coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/
