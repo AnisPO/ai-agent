@@ -264,7 +264,7 @@ python -m pytest
 ### Запуск тестов с отчётом о покрытии
 
 ```bash
-python -m pytest --cov=main --cov=cli --cov=agent --cov=storage --cov-report=term-missing
+python -m pytest --cov=agent --cov=storage --cov-report=term-missing
 ```
 
 Команда запускает тесты и показывает процент покрытия кода, а также строки, которые не были выполнены во время тестирования.
