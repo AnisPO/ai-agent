@@ -1,4 +1,6 @@
+import agent
 import cli
+from storage import ExpenseStorage
 
 
 def test_print_help(capsys):
@@ -12,7 +14,13 @@ def test_print_help(capsys):
     assert "exit" in output
 
 
-def test_cli_add_show_and_exit(monkeypatch, capsys):
+def test_cli_add_show_and_exit(monkeypatch, capsys, tmp_path):
+    monkeypatch.setattr(
+        agent,
+        "storage",
+        ExpenseStorage(tmp_path / "expenses.json"),
+    )
+
     commands = iter(
         [
             "add 500 Покупки",
