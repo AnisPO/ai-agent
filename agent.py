@@ -72,8 +72,7 @@ def handle_change_category(id_str, new_category):
 
         if storage.change_category(expense_id, new_category):
             return (  # pragma: no cover
-                f"Категория расхода ID {expense_id} "
-                f"изменена на '{new_category}'."
+                f"Категория расхода ID {expense_id} " f"изменена на '{new_category}'."
             )
 
         return f"Ошибка: Расход с ID {expense_id} не найден."
